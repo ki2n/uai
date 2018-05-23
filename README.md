@@ -4,7 +4,7 @@ ArchKick refers to the fact that it kicks off arch in seconds. It is an easy ins
 ArchKick is great for new users for arch, it requires little to no command knowledge. It just makes things a simple blast for installing arch. Even if you are experienced, this tool is useful for doing quick and easy arch installs! Archkick is suprisingly lightweight too!
 
 # Running ArchKick from a fresh Arch USB
-Go ahead and download an Arch Linux ISO, put it on a usb and boot it up. If you use wifi connect to it with this command.
+Go ahead and download an Arch Linux ISO from the [download page](https://www.archlinux.org/download/), put it on a usb and boot it up. If you use wifi connect to it with this command.
 
     wifi-menu
 

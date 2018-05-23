@@ -3,18 +3,74 @@ then
 	echo "If you see this text, you are now in your system (or chrooted)!"
 	echo "Getting timezones ready..."
 	sleep 1
-	echo "Listing all Zones"
 	while true
 	do
+		clear
+		echo "Listing all Zones"
 		ls /usr/share/zoneinfo/
-		echo -n "Please type your zone [EX New York]: "
+		echo -n "Please type your zone [EX America]: "
 		read zonein
 		if [ ! -d "/usr/share/zoneinfo/$zonein" ]
 		then
 			echo "ERROR: Please enter a valid zone"
 			echo "Make sure you include the capital letters!"
-			sleep 3 #work on this bit today
-	ln -sf /usr/share/zoneinfo/Zone/SubZone /etc/localtime
+			sleep 2
+		else
+			break
+		fi
+	done
+	
+	while true
+	do
+		clear
+		echo "Listing all Zones"
+		ls "/usr/share/zoneinfo/$zonein"
+		echo -n "Please type your Subzone [EX New_York]: "
+		read subin
+		if [ ! -f "/usr/share/zoneinfo/$zonein/$subin" ]
+		then
+			echo "ERROR: Please enter a valid subzone"
+			echo "Make sure you include the capital letters!"
+			sleep 2
+		else
+			break
+		fi
+	done
+	ln -sf /usr/share/zoneinfo/$zonein/$subin /etc/localtime
+	echo ">>> Using hardware clock to generate..."
+	hwclock --systohc
+	echo "We are going to use nano again to edit the locale file!"
+	echo "All you need to do is uncomment the line that contains your locale!"
+	echo "For example: '#text', will become 'text' instead!"
+	echo "Would you like to edit that file? [y/n]"
+	read -rsn1 chck
+	if [ "$chck" = "y" ]
+	then
+		nano /etc/locale.gen
+	else
+		echo "Skipping then... [not recommended]"
+	fi
+	echo "Generating the locale!"
+	locale-gen
+	clear
+	echo "Note, use A-Z,'-' characters only."
+	echo "Example hostname: archlinux-pc"
+	echo ""
+	echo -n "Please type your system hostname: "
+	read hostnm
+	echo "$hostnm" >> /etc/hostname
+	echo ">>> Installing wifi drivers... [if you use ethernet it wont matter]"
+	pacman -S dialog wpa_supplicant iw
+	clear
+	echo ">>> Setting root password"
+	passwd
+	echo ">>> Installing grub [please accept install]"
+	pacman -S grub
+	echo ">>> Installing grub onto $2"
+	grub-install /dev/$2
+	echo ">>> Generating grub file..."
+	grub-mkconfig -o /boot/grub/grub.cfg
+	# install now done! Now i can work on the bit that gives you extra install
 else
 	clear
 	echo "Welcome to ArchKick! v1.0"
@@ -148,5 +204,5 @@ else
 		pacstrap /mnt base base-devel
 	fi
 	genfstab -U /mnt >> /mnt/etc/fstab
-	arch-chroot /mnt bash archkick.sh inchroot
+	arch-chroot /mnt bash archkick.sh inchroot $partname
 fi

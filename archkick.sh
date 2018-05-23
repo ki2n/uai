@@ -70,10 +70,251 @@ then
 	grub-install /dev/$2
 	echo ">>> Generating grub file..."
 	grub-mkconfig -o /boot/grub/grub.cfg
-	# install now done! Now i can work on the bit that gives you extra install
+	clear
+	echo "Hooray! You made it! :D. Your system is all ready for use... but, not entirely."
+	echo "Now it is time for a post-install."
+	echo "You are safe to reboot without doing a post install, which means"
+	echo "You have to manually install your desktop environment, tools, and many more.."
+	echo ""
+	echo "The post install will:"
+	echo "- Let you setup your user account"
+	echo "- Install your favorite tools"
+	echo "- Install a desktop environment/window manager"
+	echo "- Some other post install thingies..."
+	echo ""
+	echo "A post install is totally recommended! Meaning you should do it"
+	echo "-------------------------------------------"
+	echo "  Press any key to enter the post install"
+	read -rsn1
+	clear
+	echo "- Create your account -"
+	echo "Please use characters a-z, A-Z, 1-9, and '-'."
+	echo "Good username: bobthe-Cat0123"
+	echo "BAD username: Bobby The Cat 42"
+	echo ""
+	echo -n "Please enter your username: "
+	read usname
+	useradd -m -s /bin/bash $usname
+	passwd $usname
+	echo "User $usname has been created!"
+	echo "Putting user in sudoers file"
+	echo "$usname ALL=(ALL) ALL" >> /etc/sudoers
+	echo "User creation done..."
+	clear
+	echo "Desktop environments and window managers"
+	echo "To select: Simply press the letter that you install, for example:"
+	echo "Pressing 'g' installs the Gnome desktop environment"
+	echo ""
+	echo "g = Gnome"
+	echo "k = KDE Plasma"
+	echo "x = Xfce"
+	echo "l = Lxde"
+	echo "o = Openbox"
+	echo "i = i3wm"
+	echo "f = Fluxbox"
+	echo "[g/k/x/l/o/i/f]?"
+	read -rsn1 da
+	if [ "$da" = "g" ]
+	then
+		echo "Installing gnome..."
+		echo "Continue pressing enter to accept all dependencies"
+		sleep 1
+		pacman -S gnome gnome-extra terminator gdm
+		echo "Note: Gnome-terminal is broken... use terminator"
+		sleep 2
+	elif [ "$da" = "k" ]
+	then
+		echo "Installing KDE Plasma..."
+		echo "Continue pressing enter to accept all dependencies"
+		sleep 1
+		pacman -S plasma sddm
+	elif [ "$da" = "x" ]
+	then
+		echo "Installing Xfce..."
+		echo "Continue pressing enter to accept all dependencies"
+		sleep 1
+		pacman -S xfce4 xfce4-goodies
+	elif [ "$da" = "l" ]
+	then
+		echo "Installing LXDE..."
+		echo "Continue pressing enter to accept all dependencies"
+		sleep 1
+		pacman -S lxde lxde-common
+	elif [ "$da" = "o" ]
+	then
+		echo "Note: Installing a window manager requires some experience..."
+		sleep 1
+		pacman -S openbox
+	elif [ "$da" = "i" ]
+	then
+		echo "Note: Installing a window manager requires some experience..."
+		sleep 1
+		pacman -S i3
+	elif [ "$da" = "f" ]
+	then
+		echo "Note: Installing a window manager requires some experience..."
+		sleep 1
+		pacman -S fluxbox
+	else
+		echo "You did not choose a valid de/wm, skipping!"
+	fi
+	echo "Installing extra stuff"
+	pacman -S networkmanager
+	pacman -S xorg xorg-server
+	if [ "$da" = "g" ]
+	then
+		systemctl enable gdm
+	elif [ "$da" = "k" ]
+	then
+		systemctl enable sddm
+	else
+		echo "Installing your display manager..."
+		pacman -S lxdm
+		systemctl enable lxdm
+	fi
+	systemctl enable NetworkManager
+	pacman -S network-manager-applet
+	systemctl enable nm-applet
+	echo "Installing pulseaudio so you can hear the ocean... :D"
+	pacman -S pulseaudio
+	systemctl enable pulseaudio.socket
+	pacman -S pa-applet
+	systemctl enable pa-applet
+	clear
+	echo "Tool installation"
+	echo "------------------"
+	echo "Do you want firefox? [y/n]"
+	read -rsn1 chc
+	if [ "$chc" = "y" ]
+	then
+		pacman -S firefox
+	fi
+	echo "Do you want chromium? [y/n]"
+	read -rsn1 chc
+	if [ "$chc" = "y" ]
+	then
+		pacman -S chromium
+	fi
+	echo "Do you want kdenlive? [y/n]"
+	read -rsn1 chc
+	if [ "$chc" = "y" ]
+	then
+		pacman -S kdenlive
+	fi
+	echo "Do you want Geany? [y/n]"
+	read -rsn1 chc
+	if [ "$chc" = "y" ]
+	then
+		pacman -S geany
+	fi
+	echo "Do you want Geary for email? [y/n]"
+	read -rsn1 chc
+	if [ "$chc" = "y" ]
+	then
+		pacman -S geary
+	fi
+	echo "Do you want yaourt for AUR [recommended]? [y/n]"
+	read -rsn1 chc
+	if [ "$chc" = "y" ]
+	then
+		echo "" >> /etc/pacman.conf
+		echo "[archlinuxfr]" >> /etc/pacman.conf
+		echo "SigLevel = Never" >> /etc/pacman.conf
+		echo "Server = http://repo.archlinux.fr/$arch" >> /etc/pacman.conf
+		pacman -Sy
+		pacman -S yaourt
+	fi
+	echo "Do you want emacs? [y/n]"
+	read -rsn1 chc
+	if [ "$chc" = "y" ]
+	then
+		pacman -S emacs
+	fi
+	echo "Do you want telegram? [y/n]"
+	read -rsn1 chc
+	if [ "$chc" = "y" ]
+	then
+		pacman -S telegram-desktop
+	fi
+	echo "Do you want riot messenger? [y/n]"
+	read -rsn1 chc
+	if [ "$chc" = "y" ]
+	then
+		pacman -S riot-desktop
+	fi
+	echo "Do you want libreoffice? [y/n]"
+	read -rsn1 chc
+	if [ "$chc" = "y" ]
+	then
+		pacman -S libreoffice-fresh
+	fi
+	echo "Do you want hexchat? [y/n]"
+	read -rsn1 chc
+	if [ "$chc" = "y" ]
+	then
+		pacman -S hexchat
+	fi
+	echo "Do you want simplescreenrecorder? [y/n]"
+	read -rsn1 chc
+	if [ "$chc" = "y" ]
+	then
+		pacman -S simplescreenrecorder
+	fi
+	echo "Do you want OBS Studio? [y/n]"
+	read -rsn1 chc
+	if [ "$chc" = "y" ]
+	then
+		pacman -S obs-studio
+	fi
+	echo "Do you want lmms? [y/n]"
+	read -rsn1 chc
+	if [ "$chc" = "y" ]
+	then
+		pacman -S lmms
+	fi
+	echo "Do you want gimp? [y/n]"
+	read -rsn1 chc
+	if [ "$chc" = "y" ]
+	then
+		pacman -S gimp
+	fi
+	echo "Do you want vlc? [y/n]"
+	read -rsn1 chc
+	if [ "$chc" = "y" ]
+	then
+		pacman -S vlc
+	fi
+	echo "Do you want htop [term]? [y/n]"
+	read -rsn1 chc
+	if [ "$chc" = "y" ]
+	then
+		pacman -S htop
+	fi
+	echo "You are at the end of the line for packages."
+	sleep 1
+	clear
+	echo "Hooray! :D"
+	sleep 1
+	echo "Your setup is done!"
+	sleep 1
+	echo "You have successfully installed arch linux onto your system!"
+	sleep 1
+	echo ""
+	echo "Getting ready to reboot in 5 seconds!"
+	sleep 1
+	echo "4"
+	sleep 1
+	echo "3"
+	sleep 1
+	echo "2"
+	sleep 1
+	echo "1"
+	sleep 1
+	reboot
+	exit
 else
 	clear
-	echo "Welcome to ArchKick! v1.0"
+	echo "Welcome to ArchKick! v1.1"
 	echo "-----------------------------------------------------"
 	echo "ArchKick is made for making arch easier to install!"
 	echo "It reduces the pain and time of installing arch linux"
@@ -173,7 +414,7 @@ else
 		echo "  CTRL+X -> Y -> ENTER"
 		echo "Press any key to continue"
 		read -rsn1
-		sudo nano /etc/pacman.d/mirrorlist
+		nano /etc/pacman.d/mirrorlist
 	elif [ "$rchc" = "n" ]
 	then
 		echo "Skipping then..."

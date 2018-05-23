@@ -401,9 +401,12 @@ else
 	cfdisk /dev/$partname
 	echo "Formatting root as ext4..."
 	mkfs.ext4 /dev/$partname$partnum
-	echo "Creating swap..."
-	mkswap /dev/$partname$swapnum
-	swapon /dev/$partname$swapnum
+	if [ "$swap" = "yes" ]
+	then
+		echo "Creating swap..."
+		mkswap /dev/$partname$swapnum
+		swapon /dev/$partname$swapnum
+	fi
 	mount /dev/$partname$partnum /mnt
 	echo "Note, next thing requires knowledge of the nano text editor"
 	echo "Do you want to edit the mirrorlist file, you should [y/n]"

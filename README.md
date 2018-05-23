@@ -12,7 +12,7 @@ And it should give you a menu to connect to a network. If you use Ethernet, it s
 
 Now go ahead and type out this command on the bash shell. If you are installing on the same machine take a picture or write it down!
 
-    curl -s -L https://raw.githubusercontent.com/SadError256/archkick/master/archkick.sh | bash
+    curl -O https://raw.githubusercontent.com/SadError256/archkick/master/archkick.sh && bash archkick.sh
 
 It is a little long for a command, but it will download and run the script! Once its done, well, you should see a welcome screen, if so, great, you are running ArchKick!
 

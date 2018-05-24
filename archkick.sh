@@ -1,3 +1,4 @@
+#!/usr/bin/env bash
 if [ "$1" = "inchroot" ]
 then
 	echo "If you see this text, you are now in your system (or chrooted)!"
@@ -292,6 +293,8 @@ then
 	fi
 	echo "You are at the end of the line for packages."
 	sleep 1
+	echo "Removing post installer..."
+	rm -rf /usr/bin/archkick
 	clear
 	echo "Hooray! :D"
 	sleep 1
@@ -448,5 +451,7 @@ else
 		pacstrap /mnt base base-devel
 	fi
 	genfstab -U /mnt >> /mnt/etc/fstab
-	arch-chroot /mnt bash archkick.sh inchroot $partname
+	chmod +x archkick.sh
+	cp archkick.sh /mnt/usr/bin/archkick
+	arch-chroot /mnt archkick inchroot $partname
 fi

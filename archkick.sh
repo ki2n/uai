@@ -313,7 +313,6 @@ then
 	sleep 1
 	echo "1"
 	sleep 1
-	reboot
 	exit
 else
 	clear
@@ -454,4 +453,5 @@ else
 	chmod +x archkick.sh
 	cp archkick.sh /mnt/usr/bin/archkick
 	arch-chroot /mnt archkick inchroot $partname
+	reboot
 fi

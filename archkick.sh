@@ -106,10 +106,12 @@ then
 	echo "To select: Simply press the letter that you install, for example:"
 	echo "Pressing 'g' installs the Gnome desktop environment"
 	echo ""
-	echo "g = Gnome"
+	echo "g = GNOME"
 	echo "k = KDE Plasma"
 	echo "x = Xfce"
-	echo "l = Lxde"
+	echo "l = LXDE"
+	echo "b = Budgie"
+	echo "m = MATE"
 	echo "o = Openbox"
 	echo "i = i3wm"
 	echo "f = Fluxbox"
@@ -117,7 +119,7 @@ then
 	read -rsn1 da
 	if [ "$da" = "g" ]
 	then
-		echo "Installing gnome..."
+		echo "Installing GNOME..."
 		echo "Continue pressing enter to accept all dependencies"
 		sleep 1
 		pacman -S gnome gnome-extra terminator gdm
@@ -141,6 +143,18 @@ then
 		echo "Continue pressing enter to accept all dependencies"
 		sleep 1
 		pacman -S lxde lxde-common
+	elif [ "$da" = "b" ]
+	then
+		echo "Installing Budgie..."
+		echo "Continue pressing enter to accept all dependencies"
+		sleep 1
+		pacman -S budgie-desktop lightdm
+	elif [ "$da" = "m" ]
+	then
+		echo "Installing Budgie..."
+		echo "Continue pressing enter to accept all dependencies"
+		sleep 1
+		pacman -S mate mate-extra lightdm
 	elif [ "$da" = "o" ]
 	then
 		echo "Note: Installing a window manager requires some experience..."

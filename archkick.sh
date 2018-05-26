@@ -115,7 +115,7 @@ then
 	echo "o = Openbox"
 	echo "i = i3wm"
 	echo "f = Fluxbox"
-	echo "[g/k/x/l/o/i/f]?"
+	echo "[g/k/x/l/b/m/o/i/f]?"
 	read -rsn1 da
 	if [ "$da" = "g" ]
 	then
@@ -151,7 +151,7 @@ then
 		pacman -S budgie-desktop lightdm
 	elif [ "$da" = "m" ]
 	then
-		echo "Installing Budgie..."
+		echo "Installing Mate..."
 		echo "Continue pressing enter to accept all dependencies"
 		sleep 1
 		pacman -S mate mate-extra lightdm
@@ -304,6 +304,12 @@ then
 	if [ "$chc" = "y" ]
 	then
 		pacman -S htop
+	fi
+	echo "Do you want lxappearance? [y/n]"
+	read -rsn1 chc
+	if [ "$chc" = "y" ]
+	then
+		pacman -S lxappearance
 	fi
 	echo "You are at the end of the line for packages."
 	sleep 1

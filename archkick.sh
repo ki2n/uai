@@ -20,7 +20,7 @@ then
 			break
 		fi
 	done
-	
+
 	while true
 	do
 		clear
@@ -130,7 +130,7 @@ then
 		echo "Installing KDE Plasma..."
 		echo "Continue pressing enter to accept all dependencies"
 		sleep 1
-		pacman -S plasma sddm
+		pacman -S plasma sddm kde-applications
 	elif [ "$da" = "x" ]
 	then
 		echo "Installing Xfce..."
@@ -235,7 +235,7 @@ then
 		echo "" >> /etc/pacman.conf
 		echo "[archlinuxfr]" >> /etc/pacman.conf
 		echo "SigLevel = Never" >> /etc/pacman.conf
-		echo "Server = http://repo.archlinux.fr/$arch" >> /etc/pacman.conf
+		echo "Server = http://repo.archlinux.fr/\$arch" >> /etc/pacman.conf
 		pacman -Sy
 		pacman -S yaourt
 	fi
